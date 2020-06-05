@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+ls ${ASDF_INSTALL_PATH}/exe | xargs -I@@ echo "exe/@@"
