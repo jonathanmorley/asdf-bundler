@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+if [[ "${ASDF_INSTALL_TYPE:-version}" == 'ref' ]]; then
+  echo >&2 "⛔ This plugin does not support installing by ref."
+  exit 1
+fi
+
+(
+  cd "${ASDF_DOWNLOAD_PATH}"
+
+  curl -Lqs "https://rubygems.org/api/v2/rubygems/bundler/versions/${ASDF_INSTALL_VERSION}.json" |
+    grep -Eo '"gem_uri":"[^"]+"' |
+    cut -d\" -f4 |
+    xargs curl -Lqs |
+    tar x -f- -O data.tar.gz |
+    tar xz
+)
