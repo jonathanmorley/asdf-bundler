@@ -7,13 +7,11 @@ if [[ "${ASDF_INSTALL_TYPE:-version}" == 'ref' ]]; then
   exit 1
 fi
 
-(
-  cd "${ASDF_INSTALL_PATH}"
+# if not asdf version with asdf_download_path then call download script here
+if [[ -z "${ASDF_DOWNLOAD_PATH:-}" ]]; then
+  export ASDF_DOWNLOAD_PATH="${ASDF_INSTALL_PATH}"
 
-  curl -Lqs "https://rubygems.org/api/v2/rubygems/bundler/versions/${ASDF_INSTALL_VERSION}.json" |
-    grep -Eo '"gem_uri":"[^"]+"' |
-    cut -d\" -f4 |
-    xargs curl -Lqs |
-    tar xz -f- -O data.tar.gz |
-    tar xz
-)
+  bash "$(dirname "$0")/download"
+else
+  cp -R "${ASDF_DOWNLOAD_PATH}"/* "${ASDF_INSTALL_PATH}"
+fi

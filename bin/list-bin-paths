@@ -2,4 +2,4 @@
 
 set -Eeuo pipefail
 
-ls ${ASDF_INSTALL_PATH}/exe | xargs -I@@ echo "exe/@@"
+echo "exe"
