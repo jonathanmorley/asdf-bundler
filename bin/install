@@ -15,3 +15,11 @@ if [[ -z "${ASDF_DOWNLOAD_PATH:-}" ]]; then
 else
   cp -R "${ASDF_DOWNLOAD_PATH}"/* "${ASDF_INSTALL_PATH}"
 fi
+
+ls "${ASDF_INSTALL_PATH}/exe" | while read file; do
+    cat "${ASDF_INSTALL_PATH}/exe/${file}" | \
+        sed -E "s|#!/usr/bin/env ruby|#!/usr/bin/env -S RUBYLIB=${ASDF_INSTALL_PATH}/lib ruby|" > \
+            "${ASDF_INSTALL_PATH}/exe/${file}.tmp"
+    chmod +x "${ASDF_INSTALL_PATH}/exe/${file}.tmp"
+    mv "${ASDF_INSTALL_PATH}/exe/${file}.tmp" "${ASDF_INSTALL_PATH}/exe/${file}"
+done
