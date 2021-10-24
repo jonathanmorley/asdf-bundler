@@ -1,23 +1,13 @@
 name: ASDF CI
 
-on:
-  push:
-    paths-ignore:
-      - "**.md"
-      - ".all-contributorsrc"
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - ".all-contributorsrc"
-  schedule:
-    - cron: "0 0 * * 5"
+on: [push, pull_request]
 
 jobs:
   plugin-test:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        ruby: ['2.6', '2.7']
+        ruby: ["2.6", "2.7"]
     runs-on: ${{ matrix.os }}
     steps:
       # Configures the ruby version used on GitHub-hosted runners
@@ -26,11 +16,23 @@ jobs:
           # The ruby version to configure
           ruby-version: ${{ matrix.ruby }}
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1.0.0
+        uses: asdf-vm/actions/plugin-test@v1
         with:
           command: bundle --version
-        env:
-          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided
+  # Test that correct version is actually installed.
+  plugin-test-version:
+    strategy:
+      matrix:
+        version: ["1.17.3", "2.2.24"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+      - name: asdf_plugin_test
+        uses: asdf-vm/actions/plugin-test@v1
+        with:
+          command: bundle --version | grep ${{ matrix.version }}
   lint:
     runs-on: ubuntu-latest
     steps:
