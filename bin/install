@@ -16,8 +16,8 @@ else
   cp -R "${ASDF_DOWNLOAD_PATH}"/* "${ASDF_INSTALL_PATH}"
 fi
 
-ls "${ASDF_INSTALL_PATH}/exe" | while read file; do
-    sed -i.tmp -E "s|#!/usr/bin/env ruby|#!/usr/bin/env -S RUBYLIB=${ASDF_INSTALL_PATH}/lib ruby|" \
-        "${ASDF_INSTALL_PATH}/exe/${file}"
-    rm "${ASDF_INSTALL_PATH}/exe"/*.tmp
+find "${ASDF_INSTALL_PATH}/exe" -mindepth 1 -maxdepth 1 | while read -r file; do
+  sed -i.tmp -E "s|#!/usr/bin/env ruby|#!/usr/bin/env -S RUBYLIB=${ASDF_INSTALL_PATH}/lib ruby|" \
+    "${file}"
+  rm "${ASDF_INSTALL_PATH}/exe"/*.tmp
 done

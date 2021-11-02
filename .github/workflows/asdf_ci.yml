@@ -32,7 +32,7 @@ jobs:
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: bundle --version | grep ${{ matrix.version }}
+          command: bundle --version | grep -F "${{ matrix.version }}"
   lint:
     runs-on: ubuntu-latest
     steps:
