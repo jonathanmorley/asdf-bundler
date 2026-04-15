@@ -16,7 +16,7 @@ jobs:
           # The ruby version to configure
           ruby-version: ${{ matrix.ruby }}
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1
+        uses: asdf-vm/actions/plugin-test@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
         with:
           command: bundle --version
   # Test that correct version is actually installed.
@@ -30,7 +30,7 @@ jobs:
         with:
           ruby-version: "2.7"
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1
+        uses: asdf-vm/actions/plugin-test@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1.1.0
         with:
           command: bundle --version | grep ${{ matrix.version }}
   lint:
