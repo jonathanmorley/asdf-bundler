@@ -11,12 +11,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       # Configures the ruby version used on GitHub-hosted runners
-      - uses: actions/setup-ruby@v1
+      - uses: actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1
         with:
           # The ruby version to configure
           ruby-version: ${{ matrix.ruby }}
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1
+        uses: asdf-vm/actions/plugin-test@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1
         with:
           command: bundle --version
   # Test that correct version is actually installed.
@@ -26,25 +26,25 @@ jobs:
         version: ["1.17.3", "2.2.24"]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-ruby@v1
+      - uses: actions/setup-ruby@e932e7af67fc4a8fc77bd86b744acd4e42fe3543 # v1
         with:
           ruby-version: "2.7"
       - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1
+        uses: asdf-vm/actions/plugin-test@707e84f3ee349548310aeabdad0dd3bfcb9b69fa # v1
         with:
           command: bundle --version | grep ${{ matrix.version }}
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
       - name: Run ShellCheck
         run: shellcheck bin/*
   format:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
       - name: Install shfmt
         run: brew install shfmt
       - name: Run shfmt
